@@ -1,0 +1,14 @@
+FOLLOW, 0N TRAVEL, 0N USER
+TRAVEL: title, description, picture, date, status
+BELONGS TO, 0N TRAVEL, 11 STEP
+PICTURE: url
+
+USER: firstname, lastname, email, password, role, avatar
+HAS, 0N USER, 11 TRAVEL
+STEP: description, date, latitude, longitude, like
+REPRESENTS, 1N STEP, 11 PICTURE
+
+WRITE BY, 0N USER, 11 COMMENT
+COMMENT: text
+BELONGS, 0N STEP, 11 COMMENT
+:

@@ -1,0 +1,64 @@
+<html>
+<head>
+<meta charset='utf-8'>
+<style>
+  #mld .relation { font-variant: small-caps; font-weight: bold }
+  #mld .primary { text-decoration: underline }
+  #mld .foreign { font-style: oblique }
+  #mld .normal { }
+</style>
+</head>
+<body>
+<div id='mld'>
+<div>
+  <span class='relation'>FOLLOW</span> (
+    <span class='foreign primary'>title</span>,
+    <span class='foreign primary'>firstname</span>
+  )
+</div>
+<div>
+  <span class='relation'>TRAVEL</span> (
+    <span class='primary'>title</span>,
+    <span class='normal'>description</span>,
+    <span class='normal'>picture</span>,
+    <span class='normal'>date</span>,
+    <span class='normal'>status</span>,
+    <span class='foreign'>firstname</span>
+  )
+</div>
+<div>
+  <span class='relation'>PICTURE</span> (
+    <span class='primary'>url</span>,
+    <span class='foreign'>description</span>
+  )
+</div>
+<div>
+  <span class='relation'>USER</span> (
+    <span class='primary'>firstname</span>,
+    <span class='normal'>lastname</span>,
+    <span class='normal'>email</span>,
+    <span class='normal'>password</span>,
+    <span class='normal'>role</span>,
+    <span class='normal'>avatar</span>
+  )
+</div>
+<div>
+  <span class='relation'>STEP</span> (
+    <span class='primary'>description</span>,
+    <span class='normal'>date</span>,
+    <span class='normal'>latitude</span>,
+    <span class='normal'>longitude</span>,
+    <span class='normal'>like</span>,
+    <span class='foreign'>title</span>
+  )
+</div>
+<div>
+  <span class='relation'>COMMENT</span> (
+    <span class='primary'>text</span>,
+    <span class='foreign'>firstname</span>,
+    <span class='foreign'>description</span>
+  )
+</div>
+</div>
+</body>
+</html>

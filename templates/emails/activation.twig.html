@@ -1,0 +1,12 @@
+{% apply inline_css %}
+<style>
+      #body {
+        font-size: 14px;
+      }
+    </style>
+
+
+<h1>Activation de votre compte</p>
+<p>Bonjour {{username}}, merci d'avoir créé un compte sur <strong>Carnet de voyage</strong>, veuillez cliquer sur le lien ci-dessous pour l'activer</p>
+<p><a href="{{ absolute_url(path('activation', {'token': token})) }}">Activer mon compte</a></p>
+{% endapply %}
