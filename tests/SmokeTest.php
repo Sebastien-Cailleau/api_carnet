@@ -88,6 +88,33 @@ class SmokeTest extends WebTestCase
         );
     }
 
+    public function testGetTravel()
+    {
+        $client = $this->testCreateAuthenticatedClient();
+        $data = json_decode($client->getResponse()->getContent(), true);
+
+        $client->setServerParameter('HTTP_Authorization', sprintf('Bearer %s', $data['token']));
+        $client->request('GET', '/api/travels/4');
+        $data = json_decode($client->getResponse()->getContent(), true);
+        $this->assertResponseStatusCodeSame('200');
+        $this->assertJsonStringEqualsJsonString(
+            json_encode(
+                $data["id"]
+            ),
+            json_encode(
+                4
+            )
+        );
+        $this->assertJsonStringEqualsJsonString(
+            json_encode(
+                $data["title"]
+            ),
+            json_encode(
+                'La Corse à moto'
+            )
+        );
+    }
+
     public function testIndex()
     {
         $client = static::createClient();
@@ -108,11 +135,7 @@ class SmokeTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('GET', '/travels/1/03d5833a53bad0d9ae762424801d27f1', [
-            'headers' => [
-                'Accept' => 'application/json'
-            ],
-        ]);
+        $client->request('GET', '/travels/1/03d5833a53bad0d9ae762424801d27f1');
         $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertResponseStatusCodeSame('200');
         $this->assertJsonStringEqualsJsonString(

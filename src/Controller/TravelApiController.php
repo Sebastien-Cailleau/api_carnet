@@ -27,10 +27,11 @@ class TravelApiController extends AbstractController
      * @param UserRepository $userRepository
      * @return userArray [userId, admin(false or true)] or null (Bab Token or username not found)
      */
-    public static function checkTokenRequest(JWTEncoderInterface $jWTEncoderInterface, UserRepository $userRepository)
+    public static function checkTokenRequest(JWTEncoderInterface $jWTEncoderInterface, UserRepository $userRepository, Request $request)
     {
         // get the Token from the headers
-        $token = apache_request_headers()["Authorization"];
+        $token = $request->headers->all()["authorization"][0];
+
         if ($token == null) {
             return null;
         } // not Token
@@ -51,20 +52,20 @@ class TravelApiController extends AbstractController
         foreach ($arrayRoles as $roles) {
             if ($roles == "ROLE_ADMIN") $userArray["admin"] = true;
         }
-        //dd($user, $userArray);       
+        //dd($user, $userArray);
         return $userArray;
     }
 
 
     /**
      * @Route("/api/travels/create", name="api_travels_create", methods={"POST"})
-     * 
+     *
      * Creation Travel and addition to BDD
      */
     public function add(SerializerInterface $serializer, Request $request, ValidatorInterface $validator, UserRepository $userRepository, JWTEncoderInterface $jWTEncoderInterface)
     {
 
-        $userArrayToken = $this->checkTokenRequest($jWTEncoderInterface, $userRepository);
+        $userArrayToken = $this->checkTokenRequest($jWTEncoderInterface, $userRepository, $request);
         if ($userArrayToken == null) {
             return $this->json(
                 [
@@ -180,7 +181,7 @@ class TravelApiController extends AbstractController
 
     /**
      *  @Route("/api/travels/{id}/update", name="api_travels_update", requirements={"id"="\d+"}, methods={"PUT"})
-     * 
+     *
      */
     public function update(Request $request, TravelRepository $travelRepository, UserRepository $userRepository, JWTEncoderInterface $jWTEncoderInterface, $id)
     {
@@ -198,7 +199,7 @@ class TravelApiController extends AbstractController
             );
         }
 
-        $userArrayToken = $this->checkTokenRequest($jWTEncoderInterface, $userRepository);
+        $userArrayToken = $this->checkTokenRequest($jWTEncoderInterface, $userRepository, $request);
         if (($userArrayToken == null or $userArrayToken["userId"] != $travel->getCreator()->getId())) {
             return $this->json(
                 [
@@ -293,7 +294,7 @@ class TravelApiController extends AbstractController
     /**
      *  @Route("/api/travels/{id}/delete", name="api_travels_delete", requirements={"id"="\d+"}, methods={"DELETE"})
      */
-    public function delete(travelRepository $travelRepository, UserRepository $userRepository, JWTEncoderInterface $jWTEncoderInterface, $id)
+    public function delete(travelRepository $travelRepository, UserRepository $userRepository, JWTEncoderInterface $jWTEncoderInterface, $id, Request $request)
     {
         // search and recover in BDD the Travel id
         $travel = $travelRepository->find($id);
@@ -308,7 +309,7 @@ class TravelApiController extends AbstractController
             );
         }
 
-        $userArrayToken = $this->checkTokenRequest($jWTEncoderInterface, $userRepository);
+        $userArrayToken = $this->checkTokenRequest($jWTEncoderInterface, $userRepository, $request);
         //dd($userArrayToken, $travel->getCreator()->getId());
         if (!($userArrayToken["admin"] == true)) {
             if ($userArrayToken == null or $userArrayToken["userId"] != $travel->getCreator()->getId()) {
@@ -340,9 +341,9 @@ class TravelApiController extends AbstractController
 
     /**
      *  @Route("api/travels/{id}", name="api_travels_show", methods={"GET"}, requirements={"id"="\d+"})
-     * 
+     *
      */
-    public function show(travelRepository $travelRepository, UserRepository $userRepository, JWTEncoderInterface $jWTEncoderInterface, $id)
+    public function show(travelRepository $travelRepository, UserRepository $userRepository, JWTEncoderInterface $jWTEncoderInterface, $id, Request $request)
     {
         // search and recover in BDD the Travel id
         $travel = $travelRepository->find($id);
@@ -358,7 +359,7 @@ class TravelApiController extends AbstractController
         }
 
         // check token
-        $userArrayToken = $this->checkTokenRequest($jWTEncoderInterface, $userRepository);
+        $userArrayToken = $this->checkTokenRequest($jWTEncoderInterface, $userRepository, $request);
         if (!($userArrayToken["admin"] == true)) {
             if ($userArrayToken == null or $userArrayToken["userId"] != $travel->getCreator()->getId()) {
                 return $this->json(
@@ -379,13 +380,13 @@ class TravelApiController extends AbstractController
     }
 
     /**
-     * 
+     *
      *  @Route("api/travels/list", name="api_travels_list", methods={"GET"})
-     * 
+     *
      */
-    public function list(travelRepository $travelRepository, UserRepository $userRepository, JWTEncoderInterface $jWTEncoderInterface)
+    public function list(travelRepository $travelRepository, UserRepository $userRepository, JWTEncoderInterface $jWTEncoderInterface, Request $request)
     {
-        $userArrayToken = $this->checkTokenRequest($jWTEncoderInterface, $userRepository);
+        $userArrayToken = $this->checkTokenRequest($jWTEncoderInterface, $userRepository, $request);
         if ($userArrayToken == null) {
             return $this->json(
                 [
@@ -408,12 +409,12 @@ class TravelApiController extends AbstractController
     }
 
     /**
-     * 
+     *
      *  @Route("travels/{id}/{token}", name="travel_url", methods={"GET"}, requirements={"id"="\d+","token"="[a-z0-9]{32}"})
      */
     public function showToken(travelRepository $travelRepository, UserRepository $userRepository, $token, $id)
     {
-        
+
         $travel = $travelRepository->find($id);
         if ($travel == null) {
             return $this->json(
