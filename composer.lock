@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1163fb50abcbad4460e356b345c683e2",
+    "content-hash": "1c4601e997ff0f588438fa6d68cb9116",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -3903,16 +3903,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.9.3",
+            "version": "v1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "1eab1e85f5eb66dac138d6240cc0ceffd6e3ae34"
+                "reference": "e38520236bdc911c2f219634b485bc328746e980"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/1eab1e85f5eb66dac138d6240cc0ceffd6e3ae34",
-                "reference": "1eab1e85f5eb66dac138d6240cc0ceffd6e3ae34",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/e38520236bdc911c2f219634b485bc328746e980",
+                "reference": "e38520236bdc911c2f219634b485bc328746e980",
                 "shasum": ""
             },
             "require": {
@@ -3928,7 +3928,7 @@
             "type": "composer-plugin",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.8-dev"
+                    "dev-main": "1.9-dev"
                 },
                 "class": "Symfony\\Flex\\Flex"
             },
@@ -3948,6 +3948,10 @@
                 }
             ],
             "description": "Composer plugin for Symfony",
+            "support": {
+                "issues": "https://github.com/symfony/flex/issues",
+                "source": "https://github.com/symfony/flex/tree/v1.10.0"
+            },
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -3962,7 +3966,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-08-31T14:36:07+00:00"
+            "time": "2020-11-05T10:56:45+00:00"
         },
         {
             "name": "symfony/framework-bundle",
@@ -7636,16 +7640,16 @@
         },
         {
             "name": "symfony/web-profiler-bundle",
-            "version": "v5.1.5",
+            "version": "v5.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/web-profiler-bundle.git",
-                "reference": "57580233309788f66e69ad783989880b1b85c77f"
+                "reference": "d94865ad9365ee4ac0d9bd24d9e90410e7ec6185"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/web-profiler-bundle/zipball/57580233309788f66e69ad783989880b1b85c77f",
-                "reference": "57580233309788f66e69ad783989880b1b85c77f",
+                "url": "https://api.github.com/repos/symfony/web-profiler-bundle/zipball/d94865ad9365ee4ac0d9bd24d9e90410e7ec6185",
+                "reference": "d94865ad9365ee4ac0d9bd24d9e90410e7ec6185",
                 "shasum": ""
             },
             "require": {
@@ -7668,11 +7672,6 @@
                 "symfony/stopwatch": "^4.4|^5.0"
             },
             "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "5.1-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Symfony\\Bundle\\WebProfilerBundle\\": ""
@@ -7697,6 +7696,9 @@
             ],
             "description": "Symfony WebProfilerBundle",
             "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/web-profiler-bundle/tree/v5.1.8"
+            },
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -7711,7 +7713,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-08-10T08:03:57+00:00"
+            "time": "2020-10-24T12:01:57+00:00"
         }
     ],
     "aliases": [],
@@ -7725,5 +7727,5 @@
         "ext-iconv": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.0.0"
 }

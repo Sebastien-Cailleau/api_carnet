@@ -61,7 +61,7 @@ class UserApiController extends AbstractController
         $password = $passwordEncoder->encodePassword($user, $user->getPassword());
         $user->setPassword($password);
         $user->setToken(md5(uniqid()));
-        
+
         // Save user in DB
         $manager = $this->getDoctrine()->getManager();
         $manager->persist($user);
@@ -69,14 +69,15 @@ class UserApiController extends AbstractController
 
         // Send email to user for activate account
         $mailerController->sendEmail(
-            $mailerInterface, $user->getEmail(), 
-            'Merci de vous inscrire!', 
-            'emails/activation.twig.html', 
-            $user->getFirstName(), 
+            $mailerInterface,
+            $user->getEmail(),
+            'Merci de vous inscrire!',
+            'emails/activation.twig.html',
+            $user->getFirstName(),
             $user->getToken()
         );
 
-        
+
         return $this->json(
             [
                 "success" => true,
@@ -108,7 +109,7 @@ class UserApiController extends AbstractController
         $manager->persist($user);
         $manager->flush();
 
-   	return $this->redirect('http://34.202.233.128/login');
+        return $this->redirect('http://34.202.233.128/login');
     }
 
     /**
@@ -129,10 +130,10 @@ class UserApiController extends AbstractController
     /**
      * @Route("/api/user", name="user", methods={"GET"})
      */
-    public function user(UserRepository $userRepository, JWTEncoderInterface $jWTEncoderInterface)
+    public function user(UserRepository $userRepository, JWTEncoderInterface $jWTEncoderInterface, Request $request)
     {
         //we put the token of the header in a variable
-        $token = substr(apache_request_headers()["Authorization"], 7);
+        $token = substr($request->headers->all()["authorization"][0], 7);
         //we decode the token
         $tokenArray = $jWTEncoderInterface->decode($token);
         //we recover the Id of the connected user
@@ -150,7 +151,6 @@ class UserApiController extends AbstractController
                 $userAuthorization = true;
             }
         }
-
 
         //if the user is exist or user is admin
         if ($userConnectedId or $userAuthorization == true) {

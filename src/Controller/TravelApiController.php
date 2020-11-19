@@ -413,8 +413,7 @@ class TravelApiController extends AbstractController
      */
     public function showToken(travelRepository $travelRepository, UserRepository $userRepository, $token, $id)
     {
-        // exemples token : 5599730f81933c40cd8512c7cc2604aa
-        //                  d6885d0e149c4f007450c6563f3d94b9
+        
         $travel = $travelRepository->find($id);
         if ($travel == null) {
             return $this->json(
@@ -436,7 +435,6 @@ class TravelApiController extends AbstractController
                 Response::HTTP_BAD_REQUEST
             );
         }
-        //dd($token, $tokenTravel);
         return $this->json(
             $travel,
             200,
