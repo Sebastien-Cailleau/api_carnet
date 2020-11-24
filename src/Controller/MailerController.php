@@ -23,7 +23,7 @@ class MailerController extends AbstractController
                 'username' => $username,
                 'token' => $token
             ]);
-            
+
         $mailer->send($email);
     }
 
@@ -40,7 +40,7 @@ class MailerController extends AbstractController
             ->to("o.carnet.de.voyage@gmail.com")
             ->subject($requestArray["object"] . " From: " . $requestArray["email"])
             ->text($requestArray["text"]);
-            
+
         $mailer->send($email);
 
         //Send a copy
