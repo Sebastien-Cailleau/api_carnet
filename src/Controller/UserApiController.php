@@ -60,6 +60,7 @@ class UserApiController extends AbstractController
         // Encode the password
         $password = $passwordEncoder->encodePassword($user, $user->getPassword());
         $user->setPassword($password);
+        // Set activation token
         $user->setToken(md5(uniqid()));
 
         // Save user in DB
@@ -92,23 +93,28 @@ class UserApiController extends AbstractController
      */
     public function activation($token, UserRepository $userRepository)
     {
+        // find user by activation token
         $user = $userRepository->findOneBy(['token' => $token]);
 
+        // if $user is false
         if (!$user) {
+            // return error
             return $this->json(
                 [
                     "success" => false,
-                    "errors" => 'Cet utilisateur n\'existe pas.'
+                    "errors" => 'Il y\'as eu une erreur lors de l\'activation.'
                 ],
                 Response::HTTP_BAD_REQUEST
             );
         }
 
+        // Erase token
         $user->setToken(null);
         $manager = $this->getDoctrine()->getManager();
         $manager->persist($user);
         $manager->flush();
 
+        // Redirect to login page of "Carnet de Voyage"
         return $this->redirect('http://34.202.233.128/login');
     }
 

@@ -170,15 +170,3 @@ JWT_PASSPHRASE=C@rnetDeVoyageSecret
 scp -i ~/.ssh/testcle.pem -r /var/www/html/projet-carnet-voyage/Front/dist ubuntu@34.202.233.128:/var/www/html
 ```
 
-## js
-
-```js
-    const buttonCopy = document.createElement('button');
-
-    buttonCopy.setAttribute('onClick', 'copyMeOnClipboard');
-    buttonCopy.setAttribute('type', 'button');
-    buttonCopy.className = 'shareUrlCopy';
-    buttonCopy.textContent = 'Copie moi';
-
-    divElement.appendChild(buttonCopy);
-```

@@ -16,7 +16,6 @@ class GeneratorController extends AbstractController
      */
     public function generateUrlToken(Travel $travel = null)
     {
-
         // Return bad request if $travel = null
         if (!$travel) {
             return $this->json(
@@ -27,7 +26,6 @@ class GeneratorController extends AbstractController
                 Response::HTTP_BAD_REQUEST
             );
         }
-
 
         // Return token and travelID if token exist in DB
         if ($travel->getToken()) {
@@ -42,6 +40,7 @@ class GeneratorController extends AbstractController
 
         // Create token, save in DB and return token and travelID
         if (!$travel->getToken()) {
+            // Create and save token in DataBase
             $travel->setToken(md5(uniqid()));
             $travel->setTokenCreation(new DateTime('NOW'));
             $manager = $this->getDoctrine()->getManager();

@@ -52,7 +52,7 @@
 |created_at|TIMESTAMP|DEFAULT CURRENT_TIMESTAMP|La date de création du commentaire|
 |updated_at|TIMESTAMP|NULL|La date de la dernière mise à jour du commentaire|
 |step_id|INT|NOT NULL|L'id de l'étape commentée (relation)|
-|user_id|INT|NOT NULL|L'id de l'auteur du commantaire (relation)|
+|user_id|INT|NOT NULL|L'id de l'auteur du commentaire (relation)|
 
 ## Photos (`picture`)
 

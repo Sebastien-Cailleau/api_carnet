@@ -1,5 +1,6 @@
 # projet-carnet-voyage
 
+## Partie back-end (API Symfony)
 
 ### Présentation du projet
 

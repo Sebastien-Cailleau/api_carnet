@@ -21,16 +21,17 @@ use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 class SecurityController extends AbstractController
 {
     /**
-     * 
+     *
      * @Route("/api/login/checkactivation", name="api_login_checkactivation")
-     * 
+     *
      */
     public function apiCheckActivation(Request $request, UserRepository $userRepository)
     {
+        // Decode JSON content include in Request
         $userData = json_decode($request->getContent(), true);
-
+        // Find user
         $user = $userRepository->findOneBy(['email' => $userData['username']]);
-
+        // If $user is false, send error
         if (!$user) {
             return $this->json(
                 [
@@ -40,7 +41,7 @@ class SecurityController extends AbstractController
                 Response::HTTP_BAD_REQUEST
             );
         }
-
+        // if $user has token, send activation error
         if ($user->getToken()) {
             return $this->json(
                 [
@@ -50,9 +51,8 @@ class SecurityController extends AbstractController
                 Response::HTTP_BAD_REQUEST
             );
         }
-
-
-   	return $this->json(
+        // Else return request
+        return $this->json(
             $userData,
             200,
             []

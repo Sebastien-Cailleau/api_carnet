@@ -13,7 +13,7 @@
 <div>
   <span class='relation'>FOLLOW</span> (
     <span class='foreign primary'>title</span>,
-    <span class='foreign primary'>firstname</span>
+    <span class='foreign primary'>email</span>
   )
 </div>
 <div>
@@ -23,7 +23,7 @@
     <span class='normal'>picture</span>,
     <span class='normal'>date</span>,
     <span class='normal'>status</span>,
-    <span class='foreign'>firstname</span>
+    <span class='foreign'>email</span>
   )
 </div>
 <div>
@@ -34,9 +34,9 @@
 </div>
 <div>
   <span class='relation'>USER</span> (
-    <span class='primary'>firstname</span>,
+    <span class='primary'>email</span>,
+    <span class='normal'>firstname</span>,
     <span class='normal'>lastname</span>,
-    <span class='normal'>email</span>,
     <span class='normal'>password</span>,
     <span class='normal'>role</span>,
     <span class='normal'>avatar</span>
@@ -55,7 +55,7 @@
 <div>
   <span class='relation'>COMMENT</span> (
     <span class='primary'>text</span>,
-    <span class='foreign'>firstname</span>,
+    <span class='foreign'>email</span>,
     <span class='foreign'>description</span>
   )
 </div>
