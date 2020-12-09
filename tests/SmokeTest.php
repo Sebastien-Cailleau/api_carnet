@@ -5,11 +5,11 @@ namespace App\Tests;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-
 class SmokeTest extends WebTestCase
 {
     /**
      * Create a client with a default Authorization header.
+     * Test apiLoginCheck method
      *
      * @param string $username
      * @param string $password
@@ -39,6 +39,11 @@ class SmokeTest extends WebTestCase
         return $client;
     }
 
+    /**
+     * Test CheckActivation method
+     *
+     * @return void
+     */
     public function testCheckActivation()
     {
         $client = static::createClient();
@@ -57,6 +62,11 @@ class SmokeTest extends WebTestCase
         $this->assertResponseIsSuccessful();
     }
 
+    /**
+     * Test access to user profil page
+     *
+     * @return void
+     */
     public function testUserProfil()
     {
         $client = $this->testCreateAuthenticatedClient();
@@ -67,20 +77,30 @@ class SmokeTest extends WebTestCase
         $this->assertResponseIsSuccessful();
     }
 
+    /**
+     * Test GeneratorContorller
+     *
+     * @return void
+     */
     public function testGenerateUrl()
     {
         $client = $this->testCreateAuthenticatedClient();
-        $data = json_decode($client->getResponse()->getContent(), true);
-
-        $client->setServerParameter('HTTP_Authorization', sprintf('Bearer %s', $data['token']));
+        $dataClient = json_decode($client->getResponse()->getContent(), true);
+        // set request parameter
+        $client->setServerParameter('HTTP_Authorization', sprintf('Bearer %s', $dataClient['token']));
+        // send request
         $client->request('GET', '/api/generate_url/1');
-        $data = json_decode($client->getResponse()->getContent(), true);
+        // decode JSON response
+        $dataResponse = json_decode($client->getResponse()->getContent(), true);
+        // test response
         $this->assertResponseIsSuccessful();
-        $this->assertArrayHasKey('url_token', $data);
-        $this->assertArrayHasKey('id', $data);
+        // test presence of key in array $data
+        $this->assertArrayHasKey('url_token', $dataResponse);
+        $this->assertArrayHasKey('id', $dataResponse);
+        //  test the equality of the answer with that expected
         $this->assertJsonStringEqualsJsonString(
             json_encode(
-                $data["id"]
+                $dataResponse["id"]
             ),
             json_encode(
                 1
@@ -88,18 +108,25 @@ class SmokeTest extends WebTestCase
         );
     }
 
+    /**
+     * Test access to one travel
+     *
+     * @return void
+     */
     public function testGetTravel()
     {
         $client = $this->testCreateAuthenticatedClient();
-        $data = json_decode($client->getResponse()->getContent(), true);
+        $dataClient = json_decode($client->getResponse()->getContent(), true);
 
-        $client->setServerParameter('HTTP_Authorization', sprintf('Bearer %s', $data['token']));
+        $client->setServerParameter('HTTP_Authorization', sprintf('Bearer %s', $dataClient['token']));
         $client->request('GET', '/api/travels/4');
-        $data = json_decode($client->getResponse()->getContent(), true);
+
+        $dataResponse = json_decode($client->getResponse()->getContent(), true);
+
         $this->assertResponseStatusCodeSame('200');
         $this->assertJsonStringEqualsJsonString(
             json_encode(
-                $data["id"]
+                $dataResponse["id"]
             ),
             json_encode(
                 4
@@ -107,7 +134,7 @@ class SmokeTest extends WebTestCase
         );
         $this->assertJsonStringEqualsJsonString(
             json_encode(
-                $data["title"]
+                $dataResponse["title"]
             ),
             json_encode(
                 'La Corse à moto'
@@ -115,32 +142,50 @@ class SmokeTest extends WebTestCase
         );
     }
 
+    /**
+     * Test API home page
+     *
+     * @return void
+     */
     public function testIndex()
     {
         $client = static::createClient();
         $client->request('GET', '/');
 
+        $this->assertSelectorTextContains('html h1', 'API Carnet');
         $this->assertResponseIsSuccessful();
     }
 
+    /**
+     * Test access refused for no authenticated user
+     *
+     * @return void
+     */
     public function testUserNotConnect()
     {
         $client = static::createClient();
         $client->request('GET', '/api/user');
 
         $this->assertResponseStatusCodeSame('401');
+        $this->assertResponseHeaderSame('Content-Type', 'application/json');
     }
 
+    /**
+     * Test access to travel for visitor (no authentication)
+     *
+     * @return void
+     */
     public function testTravelWithToken()
     {
         $client = static::createClient();
-
         $client->request('GET', '/travels/1/03d5833a53bad0d9ae762424801d27f1');
-        $data = json_decode($client->getResponse()->getContent(), true);
+
+        $dataResponse = json_decode($client->getResponse()->getContent(), true);
+
         $this->assertResponseStatusCodeSame('200');
         $this->assertJsonStringEqualsJsonString(
             json_encode(
-                $data["id"]
+                $dataResponse["id"]
             ),
             json_encode(
                 1
@@ -148,7 +193,7 @@ class SmokeTest extends WebTestCase
         );
         $this->assertJsonStringEqualsJsonString(
             json_encode(
-                $data["title"]
+                $dataResponse["title"]
             ),
             json_encode(
                 'Mon voyage au Canada'
